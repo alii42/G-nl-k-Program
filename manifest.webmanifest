@@ -1,0 +1,15 @@
+{
+  "name": "İlim Takip",
+  "short_name": "İlim Takip",
+  "description": "Çevrimdışı ders ve çalışma takip uygulaması",
+  "lang": "tr-TR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#176b4d",
+  "background_color": "#f5f8f6",
+  "icons": [
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

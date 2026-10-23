@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#176b4d"><meta name="description" content="Çevrimdışı ders ve çalışma takip uygulaması">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+<title>İlim Takip</title>
+</head>
+<body>
+<header class="topbar"><div class="brand"><span class="brandmark">İ</span><div><strong>İlim Takip</strong><small>Ders ve çalışma düzeni</small></div></div><button id="themeToggle" class="icon-btn" aria-label="Temayı değiştir" title="Açık/koyu tema">◐</button></header>
+<nav class="tabs" aria-label="Ana bölümler"><button class="tab active" data-view="program">Programım</button><button class="tab" data-view="timer">Çalışma Sayacı</button><button class="tab" data-view="quick">Hızlı Kayıt</button><button class="tab" data-view="reports">Raporlar</button></nav>
+<main>
+<section id="view-program" class="view active">
+<div class="section-head"><div><p class="eyebrow">HAFTALIK DÜZEN</p><h1>Programım</h1><p class="muted">Gününü seç, planını düzenle ve ilerlemeni kaydet.</p></div><button id="addTaskBtn" class="primary">＋ Çalışma ekle</button></div>
+<div id="dayPicker" class="day-picker" aria-label="Gün seçimi"></div>
+<div class="segmented"><button class="segment active" data-kind="ders">Ders programı</button><button class="segment" data-kind="mutalaa">Mütalaa ve kişisel çalışma</button></div>
+<div id="taskList" class="task-list"></div>
+<div id="emptyTasks" class="empty hidden"><span class="empty-icon">＋</span><strong>Bu bölümde henüz çalışma yok</strong><p>Seçili güne bir çalışma ekleyebilirsin.</p><button class="primary" id="emptyAddBtn">Çalışma ekle</button></div>
+</section>
+<section id="view-timer" class="view">
+<div class="section-head"><div><p class="eyebrow">ODAKLANMA</p><h1>Çalışma Sayacı</h1><p class="muted">Süreyi başlat; uygulamadan çıksan da zaman doğru hesaplanır.</p></div></div>
+<div class="timer-card"><label for="timerTitle">Çalışma başlığı</label><input id="timerTitle" placeholder="Örn. Şerhu Suğra mütalaası" maxlength="120"><label for="timerTask">Programa bağla (isteğe bağlı)</label><select id="timerTask"><option value="">Bağımsız çalışma</option></select><div id="timerDisplay" class="timer-display">00:00:00</div><div id="timerStatus" class="timer-status">Başlamaya hazır</div><div class="timer-actions"><button id="timerStart" class="primary">▶ Başlat</button><button id="timerPause" class="secondary" disabled>Ⅱ Duraklat</button><button id="timerReset" class="ghost">Sıfırla</button></div><p class="hint">Sayaç cihaz saatini kullanır. Uygulama kapansa bile açık kalan oturum yeniden açıldığında hesaplanır.</p></div>
+</section>
+<section id="view-quick" class="view">
+<div class="section-head"><div><p class="eyebrow">ANLIK KAYIT</p><h1>Hızlı Kayıt</h1><p class="muted">Programa eklemediğin bir çalışmayı sonradan kaydet.</p></div></div>
+<form id="quickForm" class="form-card"><div class="form-grid"><div class="field wide"><label for="quickTitle">Çalışma adı</label><input id="quickTitle" required maxlength="120" placeholder="Örn. Mantık tekrar çalışması"></div><div class="field"><label for="quickKind">Çalışma türü</label><select id="quickKind"><option value="ders">Ders</option><option value="mutalaa">Mütalaa</option><option value="okuma">Okuma</option><option value="ezber">Ezber</option><option value="diger">Diğer</option></select></div><div class="field"><label for="quickDate">Tarih</label><input id="quickDate" type="date" required></div><div class="field"><label for="quickMinutes">Süre (dakika)</label><input id="quickMinutes" type="number" min="1" max="100000" required placeholder="45"></div><div class="field wide"><label for="quickNote">Not (isteğe bağlı)</label><textarea id="quickNote" rows="2" maxlength="1000" placeholder="Kısa not..."></textarea></div></div><button class="primary" type="submit">Kaydı ekle</button></form>
+<div class="subhead"><h2>Son kayıtlar</h2><span class="muted">Düzenleyebilir veya silebilirsin.</span></div><div id="quickList" class="record-list"></div>
+</section>
+<section id="view-reports" class="view">
+<div class="section-head"><div><p class="eyebrow">GERÇEK KAYITLAR</p><h1>Raporlar</h1><p class="muted">Program görevleri ve hızlı kayıtlar birlikte hesaplanır; süreler iki kez sayılmaz.</p></div><button id="backupBtn" class="secondary">↓ Yedekle</button></div>
+<div class="report-filters"><div class="field"><label for="reportRange">Dönem</label><select id="reportRange"><option value="day">Bugün</option><option value="week" selected>Bu hafta</option><option value="month">Bu ay</option><option value="all">Tüm zamanlar</option></select></div><div class="report-period" id="reportPeriod"></div></div>
+<div class="stats-grid"><article class="stat"><span>Toplam görev</span><strong id="statTasks">0</strong></article><article class="stat"><span>Tamamlanan</span><strong id="statDone">0</strong></article><article class="stat"><span>Tamamlanma</span><strong id="statPercent">0%</strong></article><article class="stat"><span>Çalışma süresi</span><strong id="statTime">0 dk</strong></article></div>
+<div class="report-columns"><article class="panel"><h2>Günlere göre çalışma</h2><div id="dailyBars" class="daily-bars"></div></article><article class="panel"><h2>Çalışma türleri</h2><div id="kindStats" class="kind-stats"></div></article></div>
+<article class="panel compare-panel"><div><h2>Önceki haftayla karşılaştırma</h2><p class="muted">Pazartesi–pazar toplam çalışma süresi</p></div><strong id="weekCompare">—</strong></article>
+<div class="data-tools"><div><h2>Veri güvenliği</h2><p class="muted">Yedek dosyası programı, görevleri ve süre kayıtlarını içerir.</p></div><div class="tool-actions"><button id="restoreBtn" class="secondary">↑ Yedekten geri yükle</button><button id="clearBtn" class="danger-outline">Tüm verileri sil</button><input id="restoreFile" type="file" accept="application/json,.json" hidden></div></div>
+</section>
+</main>
+<div id="modalBackdrop" class="modal-backdrop hidden"><form id="taskForm" class="modal"><div class="modal-head"><div><p class="eyebrow">PROGRAM</p><h2 id="taskModalTitle">Çalışma ekle</h2></div><button type="button" id="modalClose" class="icon-btn" aria-label="Kapat">✕</button></div><input id="taskId" type="hidden"><div class="form-grid"><div class="field wide"><label for="taskTitle">Çalışma adı</label><input id="taskTitle" required maxlength="120" placeholder="Örn. İsagoci"></div><div class="field"><label for="taskKind">Tür</label><select id="taskKind"><option value="ders">Ders programı</option><option value="mutalaa">Mütalaa ve kişisel çalışma</option></select></div><div class="field"><label for="taskDay">Gün</label><select id="taskDay"><option value="1">Pazartesi</option><option value="2">Salı</option><option value="3">Çarşamba</option><option value="4">Perşembe</option><option value="5">Cuma</option><option value="6">Cumartesi</option><option value="0">Pazar</option></select></div><div class="field"><label for="taskStart">Başlangıç</label><input id="taskStart" type="time"></div><div class="field"><label for="taskEnd">Bitiş</label><input id="taskEnd" type="time"></div><div class="field"><label for="taskMinutes">Harcanan süre (dk)</label><input id="taskMinutes" type="number" min="0" max="100000" placeholder="İsteğe bağlı"></div><div class="field wide"><label for="taskNote">Not (isteğe bağlı)</label><textarea id="taskNote" rows="2" maxlength="1000"></textarea></div></div><p class="hint">Süreyi görevde elle kaydedebilir veya çalışma sayacından bu göreve ekleyebilirsin.</p><div class="modal-actions"><button type="button" id="modalCancel" class="ghost">Vazgeç</button><button type="submit" class="primary">Kaydet</button></div></form></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+</body></html>
